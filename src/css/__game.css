@@ -1,0 +1,31 @@
+.game__container {
+  display: flex;
+  justify-content: space-around;
+  flex-flow: wrap;
+}
+
+.game__current_player {
+  color: red;
+}
+
+.game__displayname {
+  word-wrap: break-word;
+  max-width: 80%;
+}
+
+.game__player {
+  max-width: 100%;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.game__message {
+  border: 1px solid;
+  padding: 1rem;
+  width: 200px;
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
