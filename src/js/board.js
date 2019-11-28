@@ -18,7 +18,7 @@ class Board {
   /**
    * getEl()
    * returns the HTMLElement for this board
-  */
+   */
   getEl() {
     return this.el;
   }
@@ -31,7 +31,10 @@ class Board {
     const rect = this.canvas.getBoundingClientRect();
     const x = Math.floor((event.clientX - rect.left) / GRID_SIZE);
     const y = Math.floor((event.clientY - rect.top) / GRID_SIZE);
-    return { x, y };
+    return {
+      x,
+      y
+    };
   }
 
   /**
@@ -100,7 +103,10 @@ class Board {
   }
 
   onClickSetUp(event) {
-    const { x, y } = this.getMousePos(event);
+    const {
+      x,
+      y
+    } = this.getMousePos(event);
     const stage = this.player.getSetUpStage();
     // check if the space is valid
     if (!this.isValidSpace(x, y)) {
@@ -132,7 +138,10 @@ class Board {
    * onClick()
    */
   onClick(event) {
-    const { x, y } = this.getMousePos(event);
+    const {
+      x,
+      y
+    } = this.getMousePos(event);
     if (this.player.getStateAtPos(x, y) !== 0) {
       this.store.setMessage('Already Taken!');
       return;
@@ -140,12 +149,12 @@ class Board {
     const target = this.player.getMapAtPos(x, y);
     if (target !== ships.EMPTY) {
       /**
-      * @todo - handle win event on win condition
-      * if (win condition) {
-      *   this.game.setWinner(this.player);
-      *   return;
-      * }
-      */
+       * @todo - handle win event on win condition
+       * if (win condition) {
+       *   this.game.setWinner(this.player);
+       *   return;
+       * }
+       */
       /**
        * @todo - handle sink event on sink condition
         if (sink condition) {
@@ -190,7 +199,10 @@ class Board {
    * - highlight the tile that is being hovered
    */
   onMouseMove(event) {
-    const { x, y } = this.getMousePos(event);
+    const {
+      x,
+      y
+    } = this.getMousePos(event);
     if (this.x !== x || this.y !== y) {
       this.drawTile(x, y, 'gray');
     }
@@ -205,7 +217,10 @@ class Board {
    * @param {event} event
    */
   onMouseMoveSetUp(event) {
-    const { x, y } = this.getMousePos(event);
+    const {
+      x,
+      y
+    } = this.getMousePos(event);
     if (this.x !== x || this.y !== y) {
       this.drawShip(x, y);
     }
@@ -266,28 +281,28 @@ class Board {
    * drawGrid()
    * - During set up, display where ship is placed
    * - During gameplay, display the status of the grid
-  */
+   */
   drawGrid() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     // display where the ship is placed. Ships will be displayed in Black
     const array = new Array(10).fill(0);
-  array.forEach((val, index) => {
-    array[index] = new Array(10).fill(0);
-  });
+    array.forEach((val, index) => {
+      array[index] = new Array(10).fill(0);
+    });
 
-  const arrayz = new Array(10).fill(0);
-  arrayz.forEach((val, index) => {
-    arrayz[index] = new Array(10).fill(0);
-  });
+    const arrayz = new Array(10).fill(0);
+    arrayz.forEach((val, index) => {
+      arrayz[index] = new Array(10).fill(0);
+    });
     if (this.isSettingUp()) {
-      for(var i = 0;i<10;i+=1){
-        for(var j = 0;j<10;j+=1){
-            array[i][j] = this.player.getMapAtPos(i, j);
-          }
+      for (var i = 0; i < 10; i += 1) {
+        for (var j = 0; j < 10; j += 1) {
+          array[i][j] = this.player.getMapAtPos(i, j);
+        }
       }
       array.forEach((val, curX) => {
         val.forEach((state, curY) => {
-          this.ctx.fillStyle = state === 0 ? 'black':'white' ;
+          this.ctx.fillStyle = state === 0 ? 'white' : 'black';
           this.ctx.fillRect(curX * GRID_SIZE, curY * GRID_SIZE, GRID_SIZE, GRID_SIZE);
           this.ctx.strokeRect(curX * GRID_SIZE, curY * GRID_SIZE, GRID_SIZE, GRID_SIZE);
         });
@@ -295,10 +310,10 @@ class Board {
       return;
     }
     // display the current state of the grid. Color is determined by the state of tile
-    for(var i = 0;i<10;i+=1){
-      for(var j = 0;j<10;j+=1){
-          arrayz[i][j] = this.player.getStateAtPos( i, j);
-        }
+    for (var i = 0; i < 10; i += 1) {
+      for (var j = 0; j < 10; j += 1) {
+        arrayz[i][j] = this.player.getStateAtPos(i, j);
+      }
     }
     arrayz.forEach((val, curX) => {
       val.forEach((state, curY) => {

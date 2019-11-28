@@ -12,7 +12,7 @@ Battleship battleship = Battleship(DeployedAddresses.Battleship());
  uint x = 0;
  uint y = 0;
  uint ex = 0;
- uint zz = 2;
+ uint zz = 1;
 
 // Testing the adopt() function
 function testiniState() public {
@@ -23,7 +23,7 @@ function testiniState() public {
 
 function test2() public {
   uint returnedId = battleship.getSetUpStage(pdx);
-  Assert.equal(returnedId, zz, "Working Fine.");
+  Assert.equal(returnedId,zz , "Working Fine.");
 }
 
 }

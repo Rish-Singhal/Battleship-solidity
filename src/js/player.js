@@ -40,7 +40,7 @@ class Player {
     // this.sinkCount = 0;
     this.App.clrply(this.id);
   }
-  
+
   /**
    * checkSink(index)
    * called when a ship is hit
@@ -49,8 +49,8 @@ class Player {
    * @param {number} index
    */
   checkSink(index) {
-   // return this.hitCount[index] === shipLength[index];
-    return this.App.checkSink(this.id,index);
+    // return this.hitCount[index] === shipLength[index];
+    return this.App.checkSink(this.id, index);
   }
 
   /**
@@ -60,23 +60,23 @@ class Player {
    * type of ship that got hit
    */
   incrementHit(index) {
-   // this.hitCount[index] += 1;
-    this.App.incrementHit(this.id,index);
+    // this.hitCount[index] += 1;
+    this.App.incrementHit(this.id, index);
   }
 
   /**
    * incrementSink()
    * increment the sink count
-  */
+   */
   incrementSink() {
-  //  this.sinkCount += 1;
+    //  this.sinkCount += 1;
     this.App.incrementSink(this.id);
   }
 
   /**
    * checkWin()
    * returns true if sinkCount is 5, congratulations!
-  */
+   */
   checkWin() {
     //return this.sinkCount === 5;
     return this.App.sinkCount(this.id);
@@ -94,7 +94,7 @@ class Player {
     //     }
     //   }
     // }
-    this.App.applySink(this.id,index);
+    this.App.applySink(this.id, index);
   }
 
   getSetUpComplete() {
@@ -107,23 +107,22 @@ class Player {
   }
 
   getSetUpStage() {
-    var z = this.App.getSetUpStage(this.id);
-    return 2;
+    return this.App.getSetUpStage(this.id);
   }
 
   setSetUpComplete(val) {
     //this.setUpComplete = val;
-    this.App.getSetUpComplete(this.id,val);
+    this.App.getSetUpComplete(this.id, val);
   }
 
   setSetUpRotate(val) {
-   // this.setUpRotate = val;
-    this.App.getSetUpRotate(this.id,val);
+    // this.setUpRotate = val;
+    this.App.getSetUpRotate(this.id, val);
   }
 
   incrementSetUpStage(val) {
     //this.setUpStage = this.setUpStage + 1;
-    this.App.incrementSetUpStage(this.id,val);
+    this.App.incrementSetUpStage(this.id, val);
   }
 
 
@@ -136,8 +135,8 @@ class Player {
   }
 
   setMap(x, y, val) {
-   // this.map[x][y] = val;
-   this.App.setMap(this.id,x,y,val);
+    // this.map[x][y] = val;
+    this.App.setMap(this.id, x, y, val);
   }
 
   getMap() {
@@ -145,17 +144,17 @@ class Player {
   }
 
   getMapAtPos(x, y) {
-    return this.App.getMapAtPos(this.id,x,y);
+    return this.App.getMapAtPos(this.id, x, y);
   }
 
   setState(x, y, state) {
     //this.state[x][y] = state;
-    this.App.setState(this.id,x,y,val);
-  } 
+    this.App.setState(this.id, x, y, val);
+  }
 
   getStateAtPos(x, y) {
     //return this.state[x][y];
-    return this.App.getStateAtPos(this.id,x,y);
+    return this.App.getStateAtPos(this.id, x, y);
   }
 
   getState() {

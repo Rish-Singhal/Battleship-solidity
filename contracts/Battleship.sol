@@ -156,8 +156,7 @@ contract Battleship {
   }
 
   function getSetUpStage(uint pdx) public view returns(uint){
-    uint z = players[pdx].setUpStage*10;
-    return z;
+    return players[pdx].setUpStage;
   }
    //return p;
 

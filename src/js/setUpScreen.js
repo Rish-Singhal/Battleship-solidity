@@ -12,7 +12,7 @@ class SetUpScreen {
   /**
    * handleRotateClick()
    * Click to rotate the ship you are about to place down
-  */
+   */
   handleRotateClick() {
     this.player.setSetUpRotate(!this.player.getSetUpRotate());
   }
@@ -21,7 +21,7 @@ class SetUpScreen {
    * handleClick()
    * - if Both player's set up is complete, start the game
    * - if Player 2 has not set up, start setup screen for player 2
-  */
+   */
   handleClick() {
     this.player.setSetUpComplete(true);
     if (!this.store.player2.getSetUpComplete()) {
@@ -46,9 +46,12 @@ class SetUpScreen {
       subTitle.appendChild(subTitleText);
     } else {
       const titleText = document.createTextNode(`${this.player.getName()} is Setting up...`);
-      const subTitleText = document.createTextNode(`Place your ${ships[this.player.getSetUpStage()]}`);
+      this.player.getSetUpStage().then(function (value) {
+        const subTitleText = document.createTextNode(`Place your ${ships[value]}`);
+        subTitle.appendChild(subTitleText);
+      });
       title.appendChild(titleText);
-      subTitle.appendChild(subTitleText);
+
     }
 
     container.appendChild(title);
