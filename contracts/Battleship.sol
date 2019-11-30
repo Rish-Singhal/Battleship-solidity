@@ -24,6 +24,7 @@ contract Battleship {
     Player[] players;
     Player plyn;
     State state;
+    address[2] public plyradd;
 
     constructor() public{
        shiplen[0] = 0;
@@ -33,6 +34,7 @@ contract Battleship {
        shiplen[4] = 3;
        shiplen[5] = 2;
        currentPlayer = 0;
+       counter = 0;
        state = State.Initial;
        numOfPlayers = 2;
        plyn.sinkCount = 0;
@@ -54,6 +56,85 @@ contract Battleship {
 
     }
 
+
+    function gamestate() public view returns(uint){
+      if(state == State.Initial){
+        return 0;
+      }
+      if(state == State.InitBoard){
+        return 1;
+      }
+      if(state == State.Game){
+        return 2;
+      }
+      if(state == State.Done){
+        return 3;
+      }
+    }
+
+    function setgamestate(uint ind) public view{
+      if(ind == 0){
+        state == State.Initial;
+      }
+      else if(ind == 1){
+        state == State.InitBoard;
+      }
+      else if(ind == 2){
+        state == State.Game;
+      }
+      else if(ind == 3){
+        state == State.Done;
+      }
+    }
+
+    function iniadd() public returns(uint){
+        plyradd[currentPlayer] = msg.sender;
+        currentPlayer = currentPlayer + 1;
+        if(currentPlayer == 2){
+          state = State.InitBoard;
+          currentPlayer = 0;
+        }
+        return currentPlayer;
+    }
+
+    function currply() public view returns(uint){
+      return currentPlayer;
+    }
+
+    function addtoid() public view returns(uint){
+      if(plyradd[0]==msg.sender){
+        return 0;
+      }
+      else{
+        return 1;
+      }
+    }
+
+    function addinternal(address) internal view returns(uint){
+      if(plyradd[0]==msg.sender){
+        return 0;
+      }
+      else{
+        return 1;
+      }
+    }
+
+    uint counter = 0;
+    function donesetup() public returns(string memory){  
+        counter = counter + 1;
+        string memory mssg = "next player to setup";
+        if(counter==2){
+          currentPlayer = currentPlayer + 1;      
+        }
+        if(counter == 4){
+          counter = 0;
+          state = State.Game;
+          mssg = "game started!!!";
+        }
+        currentPlayer = currentPlayer%2;
+        return mssg;
+    }
+
     function nextP() internal{
         currentPlayer = (currentPlayer + 1)%2;
     }
@@ -62,6 +143,7 @@ contract Battleship {
        currentPlayer = 0;
        state = State.Initial;
        numOfPlayers = 2;
+       counter = 2;
        for(uint256 p = 0; p < 2; p++) {
            players[p].sinkCount = 0;
            players[p].setUpComplete = 0;

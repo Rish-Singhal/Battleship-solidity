@@ -9,9 +9,7 @@ function initMap(size) {
 }
 
 class Player {
-  constructor(name, val, App) {
-    this.App = App;
-    this.name = name;
+  constructor() {
     this.map = initMap(SIZE);
     this.state = initMap(SIZE);
 
@@ -23,22 +21,19 @@ class Player {
     // state for game
     this.hitCount = new Array(6).fill(0);
     this.sinkCount = 0;
-    this.id = val;
-    //App.clrply(val);
   }
 
   /** clear()
    * set everything to back to initial state
    */
   clear() {
-    // this.map = initMap(SIZE);
-    // this.state = initMap(SIZE);
-    // this.setUpComplete = false;
-    // this.setUpRotate = false;
-    // this.setUpStage = 1;
-    // this.hitCount = new Array(6).fill(0);
-    // this.sinkCount = 0;
-    this.App.clrply(this.id);
+    this.map = initMap(SIZE);
+    this.state = initMap(SIZE);
+    this.setUpComplete = false;
+    this.setUpRotate = false;
+    this.setUpStage = 1;
+    this.hitCount = new Array(6).fill(0);
+    this.sinkCount = 0;
   }
 
   /**
@@ -49,8 +44,7 @@ class Player {
    * @param {number} index
    */
   checkSink(index) {
-    // return this.hitCount[index] === shipLength[index];
-    return this.App.checkSink(this.id, index);
+    return this.hitCount[index] === shipLength[index];
   }
 
   /**
@@ -60,8 +54,7 @@ class Player {
    * type of ship that got hit
    */
   incrementHit(index) {
-    // this.hitCount[index] += 1;
-    this.App.incrementHit(this.id, index);
+    this.hitCount[index] += 1;
   }
 
   /**
@@ -69,8 +62,7 @@ class Player {
    * increment the sink count
    */
   incrementSink() {
-    //  this.sinkCount += 1;
-    this.App.incrementSink(this.id);
+    this.sinkCount += 1;
   }
 
   /**
@@ -78,8 +70,7 @@ class Player {
    * returns true if sinkCount is 5, congratulations!
    */
   checkWin() {
-    //return this.sinkCount === 5;
-    return this.App.sinkCount(this.id);
+    return this.sinkCount === 5;
   }
 
   /**
@@ -87,42 +78,37 @@ class Player {
    * iterate through state and change the value to SUNK
    */
   applySink(index) {
-    // for (let i = 0; i < SIZE; i += 1) {
-    //   for (let j = 0; j < SIZE; j += 1) {
-    //     if (this.map[i][j] === index) {
-    //       this.state[i][j] = gridState.SUNK;
-    //     }
-    //   }
-    // }
-    this.App.applySink(this.id, index);
+    for (let i = 0; i < SIZE; i += 1) {
+      for (let j = 0; j < SIZE; j += 1) {
+        if (this.map[i][j] === index) {
+          this.state[i][j] = gridState.SUNK;
+        }
+      }
+    }
   }
 
   getSetUpComplete() {
-    //return this.setUpComplete;
-    return this.App.getSetUpComplete(this.id);
+    return this.setUpComplete;
   }
 
   getSetUpRotate() {
-    return this.App.getSetUpRotate(this.id);
+    return this.setUpRotate;
   }
 
   getSetUpStage() {
-    return this.App.getSetUpStage(this.id);
+    return this.setUpStage;
   }
 
   setSetUpComplete(val) {
-    //this.setUpComplete = val;
-    this.App.getSetUpComplete(this.id, val);
+    this.setUpComplete = val;
   }
 
   setSetUpRotate(val) {
-    // this.setUpRotate = val;
-    this.App.getSetUpRotate(this.id, val);
+    this.setUpRotate = val;
   }
 
   incrementSetUpStage(val) {
-    //this.setUpStage = this.setUpStage + 1;
-    this.App.incrementSetUpStage(this.id, val);
+    this.setUpStage = this.setUpStage + 1;
   }
 
 
@@ -135,29 +121,26 @@ class Player {
   }
 
   setMap(x, y, val) {
-    // this.map[x][y] = val;
-    this.App.setMap(this.id, x, y, val);
+    this.map[x][y] = val;
   }
 
   getMap() {
-    return this.App.getMap(this.id);
+    return this.map;
   }
 
   getMapAtPos(x, y) {
-    return this.App.getMapAtPos(this.id, x, y);
+    return this.map[x][y];
   }
 
   setState(x, y, state) {
-    //this.state[x][y] = state;
-    this.App.setState(this.id, x, y, val);
+    this.state[x][y] = state;
   }
 
   getStateAtPos(x, y) {
-    //return this.state[x][y];
-    return this.App.getStateAtPos(this.id, x, y);
+    return this.state[x][y];
   }
 
   getState() {
-    return this.App.getState(this.id);
+    return this.state;
   }
 }

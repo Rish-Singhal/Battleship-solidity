@@ -4,22 +4,25 @@ App = {
   state: null,
   store: new Store(),
   el: document.getElementById('app'),
+  gamest: -1,
+  gameply: -1,
+  mid: -1,
+  ply: null,
 
   init: async function () {
-    // Load pets.
-
-
     return await App.initWeb3();
   },
 
-  startSetUp: function (player) {
+  startSetUp: function () {
     App.store.setGameState(gameState.SETUP);
-    App.state = new SetUpScreen(App.store, App, App.el, player);
+    App.ply = new Player();
+    // console.log(App.ply.setUpRotate);
+    App.state = new SetUpScreen(App.store, App, document.getElementById('setboard'), App.ply);
   },
 
   startGame: function () {
     App.store.setGameState(gameState.PLAY);
-    App.state = new GameScreen(App.store, App, App.el);
+    App.state = new GameScreen(App.store, App, document.getElementById('game'));
   },
 
   setWinner: function (player) {
@@ -28,14 +31,11 @@ App = {
   },
 
   reRender: function () {
-    App.el.innerHTML = '';
+    document.getElementById('setboard').innerHTML = '';
     App.state.render();
   },
 
   initWeb3: async function () {
-    /*
-     * Replace me...
-     */
     // Modern dapp browsers...
     if (typeof window.ethereum !== 'undefined') {
       App.web3Provider = window.ethereum;
@@ -61,9 +61,6 @@ App = {
   },
 
   initContract: function () {
-    /*
-     * Replace me...
-     */
     $.getJSON('Battleship.json', function (data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
       var BattleshipArtifact = data;
@@ -71,12 +68,131 @@ App = {
 
       // Set the provider for our contract
       App.contracts.Battleship.setProvider(App.web3Provider);
-      console.log("yesss")
       // Use our contract to retrieve and mark the adopted pets
-      // return App.markAdopted();
-      return App.render();
+      return App.gamestate();
     });
-
+    return App.bindEvents();
+  },
+  gamestate: function () {
+    var BattleshipInstance;
+    App.contracts.Battleship.deployed().then(function (instance) {
+      BattleshipInstance = instance;
+      return BattleshipInstance.gamestate.call();
+    }).then(function (value) {
+      value = value.toNumber();
+      console.log(value);
+      console.log()
+      App.gamest = value;
+      if (value == 0) {
+        $('.startgame').show();
+        $('.game').hide();
+        $('.setup2').hide();
+      } else if (value == 1) {
+        $('.startgame').hide();
+        $('.setup2').show();
+        $('.game').hide();
+        return App.myid();
+      } else {
+        $('.startgame').hide();
+        $('.setup2').hide();
+        $('.game').show();
+        return App.myid();
+      }
+    }).catch(function (err) {
+      console.log(err.message);
+    });
+  },
+  myid: function () {
+    var BattleshipInstance;
+    App.contracts.Battleship.deployed().then(function (instance) {
+      BattleshipInstance = instance;
+      return BattleshipInstance.addtoid.call();
+    }).then(function (value) {
+      value = value.toNumber();
+      console.log(value);
+      App.mid = value;
+      console.log(App.gamest);
+      if (App.gamest == 1) {
+        console.log(App.mid);
+        return App.getplyr();
+      }
+    }).catch(function (err) {
+      console.log(err.message);
+    });
+  },
+  newgame: function (val) {
+    web3.eth.getAccounts(function (error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+      var account = accounts[0];
+      App.contracts.Battleship.deployed().then(function (instance) {
+        gameInstance = instance;
+        return gameInstance.iniadd({
+          from: account
+        });
+      }).then(function () {
+        console.log(account);
+        return App.gamestate();
+      }).catch(function (err) {
+        console.log(err.message);
+      });
+    });
+  },
+  getplyr: function () {
+    var BattleshipInstance;
+    App.contracts.Battleship.deployed().then(function (instance) {
+      BattleshipInstance = instance;
+      return BattleshipInstance.currply.call();
+    }).then(function (value) {
+      value = value.toNumber();
+      console.log(App.gamest);
+      App.gameply = value;
+      if (App.gamest == 1) {
+        $('#setupval').text('Player ' + value.toString() + ' is setting up...');
+        $('.setup2').show();
+        console.log(App.mid);
+        console.log(value);
+        if (App.mid == value) {
+          $('.setuppvt').show();
+        } else {
+          $('.setuppvt').hide();
+        }
+        return App.startSetUp();
+      } else if (App.gamest == 2) {
+        $('#plyrturn').text('Player ' + value.toString() + ' turn');
+        $('.game').show();
+        console.log(App.mid);
+        console.log(value);
+        // if (App.mid == value) {
+        //   $('.setuppvt').show();
+        // } else {
+        //   $('.setuppvt').hide();
+        // }
+        return App.startGame();
+      }
+    }).catch(function (err) {
+      console.log(err.message);
+    });
+  },
+  donesetup: function () {
+    web3.eth.getAccounts(function (error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+      var account = accounts[0];
+      App.contracts.Battleship.deployed().then(function (instance) {
+        gameInstance = instance;
+        return gameInstance.donesetup({
+          from: account
+        });
+      }).then(function () {
+        console.log(account);
+        return App.gamestate();
+      }).catch(function (err) {
+        console.log(err.message);
+      });
+    });
   },
   render: function () {
     App.store = new Store(App);
@@ -135,12 +251,13 @@ App = {
   ///e323433
   getSetUpComplete: function (pdx) {
     var BattleshipInstance;
-    App.contracts.Battleship.deployed().then(function (instance) {
+    return App.contracts.Battleship.deployed().then(function (instance) {
       BattleshipInstance = instance;
       return BattleshipInstance.getSetUpComplete(pdx);
-    }).catch(function (err) {
-      console.log(err.message);
     });
+    // }).catch(function (err) {
+    //   console.log(err.message);
+    // });
   },
   getSetUpRotate: function (pdx) {
     var BattleshipInstance;
@@ -168,21 +285,14 @@ App = {
   },
   setSetUpComplete: function (pdx, index) {
     var BattleshipInstance;
-    App.contracts.Battleship.deployed().then(function (instance) {
+    return App.contracts.Battleship.deployed().then(function (instance) {
       BattleshipInstance = instance;
       BattleshipInstance.setSetUpComplete(pdx, index);
-    }).catch(function (err) {
-      console.log(err.message);
     });
   },
-  setSetUpRotate: function (pdx, index) {
-    var BattleshipInstance;
-    App.contracts.Battleship.deployed().then(function (instance) {
-      BattleshipInstance = instance;
-      BattleshipInstance.setSetUpRotate(pdx, index);
-    }).catch(function (err) {
-      console.log(err.message);
-    });
+  setSetUpRotate: function () {
+    App.ply.setUpRotate = !App.ply.setUpRotate;
+    console.log(App.ply.setUpRotate);
   },
   incrementSetUpStage: function (pdx) {
     var BattleshipInstance;
@@ -255,79 +365,16 @@ App = {
     }).catch(function (err) {
       console.log(err.message);
     });
+  },
+
+  bindEvents: function () {
+    $(document).on('click', '#startgame', App.newgame);
+    $(document).on('click', '#rotate', App.setSetUpRotate);
+    $(document).on('click', '#done', App.donesetup);
+    $(document).on('click', '#restart', App.donesetup);
   }
-  // bindEvents: function() {
-  //   $(document).on('click', '.btn-adopt', App.handleAdopt);
-  // },
-  // markAdopted: function(adopters, account) {
-  //   /*
-  //    * Replace me...
-  //    */
-  //   var adoptionInstance;
-
-  //   App.contracts.Adoption.deployed().then(function(instance) {
-  //     adoptionInstance = instance;
-
-  //     return adoptionInstance.getAdopters.call();
-  //   }).then(function(adopters) {
-  //     for (i = 0; i < adopters.length; i++) {
-  //       if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
-  //         $('.panel-pet').eq(i).find('button').text('Success').attr('disabled', true);
-  //       }
-  //     }
-  //   }).catch(function(err) {
-  //     console.log(err.message);
-  //   });
-  // //   },
-
-  // markAdopted: function(adopters, account) {
-  //   /*
-  //    * Replace me...
-  //    */
-  //   var adoptionInstance;
-
-  //   App.contracts.Adoption.deployed().then(function(instance) {
-  //     adoptionInstance = instance;
-
-  //     return adoptionInstance.getAdopters.call();
-  //   }).then(function(adopters) {
-  //     for (i = 0; i < adopters.length; i++) {
-  //       if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
-  //         $('.panel-pet').eq(i).find('button').text('Success').attr('disabled', true);
-  //       }
-  //     }
-  //   }).catch(function(err) {
-  //     console.log(err.message);
-  //   });
-  //   },
-
-  // handleAdopt: function(event) {
-  //   event.preventDefault();
-
-  //   var petId = parseInt($(event.target).data('id'));
-  //   var adoptionInstance;
-
-  //   web3.eth.getAccounts(function(error, accounts) {
-  //     if (error) {
-  //       console.log(error);
-  //     }
-
-  //     var account = accounts[0];
-
-  //     App.contracts.Adoption.deployed().then(function(instance) {
-  //       adoptionInstance = instance;
-
-  //       // Execute adopt as a transaction by sending account
-  //       return adoptionInstance.adopt(petId, {from: account});
-  //     }).then(function(result) {
-  //       return App.markAdopted();
-  //     }).catch(function(err) {
-  //       console.log(err.message);
-  //     });
-  //   });
-  // }
-
 };
+
 
 $(function () {
   $(window).load(function () {

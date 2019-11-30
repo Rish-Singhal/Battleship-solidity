@@ -1,39 +1,61 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Battleship - BTC</title>
-    <link rel="stylesheet" type="text/css" href="/css/login.css">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-  </head>
-  <body>
-      <div class="wrapper fadeInDown">
-          <div id="formContent">
-    <div id="app" class="game"></div>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Battleship - BTC</title>
+  <link rel="stylesheet" type="text/css" href="/css/login.css">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="wrapper fadeInDown">
+    <div id="formContent">
+      <div id="app" class="game" hidden>
+        <div class='setup2' hidden>
+          <h4 id="setupval"></h4>
+          <div class='setuppvt' id='setuppvt' hidden>
+            <p id="instruc"></p>
+            <div id="setboard"></div>
+            <input type="submit" class="fadeIn fourth" value="Rotate" id="rotate">
+            <input type="submit" class="fadeIn fourth" value="Done" id="done" hidden>
+          </div>
+        </div>
+
+        <div class='game' id='game' hidden>
+          <h4 id="plyrturn"></h4>
+          <input type="submit" class="fadeIn fourth" value="Restart Game" id="restart">
+        </div>
+        <div class="startgame">
+          <br><br>
+          <input type="submit" class="fadeIn second" value="Start Game" id="startgame">
+        </div>
+
+      </div>
+    </div>
   </div>
-</div>
-  </body>
+</body>
 
-  <script type="text/javascript" src="/js/consts.js"></script>
-  <script type="text/javascript" src="/js/player.js"></script>
-  <script type="text/javascript" src="/js/store.js"></script>
-  <script type="text/javascript" src="/js/initialScreen.js"></script>
-  <script type="text/javascript" src="/js/board.js"></script>
-  <script type="text/javascript" src="/js/playerBoard.js"></script>
-  <script type="text/javascript" src="/js/setUpScreen.js"></script>
-  <script type="text/javascript" src="/js/gameScreen.js"></script>
-  <script type="text/javascript" src="/js/winnerScreen.js"></script>
-  <!-- <script type="text/javascript" src="/js/game.js"></script> -->
-  <!-- <script type="text/javascript" src="/js/main.js"></script>  -->
+<script type="text/javascript" src="/js/consts.js"></script>
+<script type="text/javascript" src="/js/player.js"></script>
+<script type="text/javascript" src="/js/store.js"></script>
+<script type="text/javascript" src="/js/initialScreen.js"></script>
+<script type="text/javascript" src="/js/board.js"></script>
+<script type="text/javascript" src="/js/playerBoard.js"></script>
+<script type="text/javascript" src="/js/setUpScreen.js"></script>
+<script type="text/javascript" src="/js/gameScreen.js"></script>
+<script type="text/javascript" src="/js/winnerScreen.js"></script>
+<!-- <script type="text/javascript" src="/js/game.js"></script> -->
+<!-- <script type="text/javascript" src="/js/main.js"></script>  -->
 
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/web3.min.js"></script>
-  <script src="js/truffle-contract.js"></script>
-  <script src="js/app.js"></script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+<script src="js/web3.min.js"></script>
+<script src="js/truffle-contract.js"></script>
+<script src="js/app.js"></script>
 
 </html>

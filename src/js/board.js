@@ -295,12 +295,7 @@ class Board {
       arrayz[index] = new Array(10).fill(0);
     });
     if (this.isSettingUp()) {
-      for (var i = 0; i < 10; i += 1) {
-        for (var j = 0; j < 10; j += 1) {
-          array[i][j] = this.player.getMapAtPos(i, j);
-        }
-      }
-      array.forEach((val, curX) => {
+      this.player.getMap().forEach((val, curX) => {
         val.forEach((state, curY) => {
           this.ctx.fillStyle = state === 0 ? 'white' : 'black';
           this.ctx.fillRect(curX * GRID_SIZE, curY * GRID_SIZE, GRID_SIZE, GRID_SIZE);
@@ -310,12 +305,7 @@ class Board {
       return;
     }
     // display the current state of the grid. Color is determined by the state of tile
-    for (var i = 0; i < 10; i += 1) {
-      for (var j = 0; j < 10; j += 1) {
-        arrayz[i][j] = this.player.getStateAtPos(i, j);
-      }
-    }
-    arrayz.forEach((val, curX) => {
+    this.player.getState().forEach((val, curX) => {
       val.forEach((state, curY) => {
         this.ctx.fillStyle = COLOR[state];
         this.ctx.fillRect(curX * GRID_SIZE, curY * GRID_SIZE, GRID_SIZE, GRID_SIZE);

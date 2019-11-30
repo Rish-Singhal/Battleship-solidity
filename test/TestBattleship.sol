@@ -26,5 +26,15 @@ function test2() public {
   Assert.equal(returnedId,zz , "Working Fine.");
 }
 
+function testgamest() public {
+  uint returnedId = battleship.gamestate();
+  Assert.equal(returnedId,0, "Working Fine.");
+}
+
+function testaddini() public {
+  uint returnedId = battleship.iniadd();
+  Assert.equal(returnedId,1, "Working Fine.");
+}
+
 }
 
