@@ -5,7 +5,8 @@ class GameScreen {
     this.store = store;
     this.game = game;
     this.el = el;
-    //this.init();
+    //this.store.setTurn(true);
+    this.render();
   }
 
   // init() {
@@ -16,7 +17,7 @@ class GameScreen {
 
   render() {
     this.el.innerHTML = '';
-
+    console.log("heyyy");
     // Create Element to display who's turn it is.
     // const turn = document.createElement('h2');
     // turn.className = 'game__displayname';
@@ -32,21 +33,22 @@ class GameScreen {
     // Create Element that contains the game itself
     const container = document.createElement('div');
     container.className = 'game__container';
-    const player1 = new PlayerBoard(this.store, this.game, this.store.player1);
-    const player2 = new PlayerBoard(this.store, this.game, this.store.player2);
+    const player1 = new PlayerBoard(this.store, this.game, this.store.player1,"board1");
+    const player2 = new PlayerBoard(this.store, this.game, this.store.player2,"board2");
     container.appendChild(player1.getEl());
     container.appendChild(player2.getEl());
 
     // Create button to reset game
-    const button = document.createElement('button');
-    const buttonText = document.createTextNode('Reset Game!');
-    button.onclick = () => {
-      this.game.init();
-    };
-    button.appendChild(buttonText);
+    // const button = document.createElement('button');
+    // const buttonText = document.createTextNode('Reset Game!');
+    // button.onclick = () => {
+    //   this.game.init();
+    // };
+    // button.appendChild(buttonText);
 
     this.el.appendChild(message);
     this.el.appendChild(container);
-    this.el.appendChild(button);
+    //this.el.appendChild(button);
+    console.log("donnnnnenenene");
   }
 }

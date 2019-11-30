@@ -25,7 +25,7 @@ class WinnerScreen {
 
     // display winner's name
     const title = document.createElement('h1');
-    const titleText = document.createTextNode(`${this.player.getName()} Wins!`);
+    const titleText = document.createTextNode(`${this.player.id} Wins!`);
     title.appendChild(titleText);
     container.appendChild(title);
 

@@ -1,8 +1,8 @@
 /* global Player PLAYER1 PLAYER2 gameState */
 class Store {
   constructor(App) {
-    this.player1 = new Player('Bob',0,App);
-    this.player2 = new Player('Charlie',1,App);
+    this.player1 = new Player(0);
+    this.player2 = new Player(1);
     this.message = '';
     this.turn = true;
     this.gameState = gameState.INIT;
@@ -24,9 +24,6 @@ class Store {
     return this.message;
   }
 
-  setTurn(turn) {
-    this.turn = turn;
-  }
 
   getTurn() {
     return this.turn;

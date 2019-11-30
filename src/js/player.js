@@ -9,7 +9,7 @@ function initMap(size) {
 }
 
 class Player {
-  constructor() {
+  constructor(id) {
     this.map = initMap(SIZE);
     this.state = initMap(SIZE);
 
@@ -21,6 +21,7 @@ class Player {
     // state for game
     this.hitCount = new Array(6).fill(0);
     this.sinkCount = 0;
+    this.id = id;
   }
 
   /** clear()

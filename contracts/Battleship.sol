@@ -118,16 +118,12 @@ contract Battleship {
         return 1;
       }
     }
-
     uint counter = 0;
+
     function donesetup() public returns(string memory){  
-        counter = counter + 1;
         string memory mssg = "next player to setup";
-        if(counter==2){
-          currentPlayer = currentPlayer + 1;      
-        }
-        if(counter == 4){
-          counter = 0;
+        currentPlayer = currentPlayer + 1;      
+        if(currentPlayer == 2){
           state = State.Game;
           mssg = "game started!!!";
         }
@@ -135,9 +131,22 @@ contract Battleship {
         return mssg;
     }
 
-    function nextP() internal{
+    function nextP() public{
         currentPlayer = (currentPlayer + 1)%2;
     }
+
+    uint winn = 0;
+    function setwin(uint w) public{
+      winn = w;
+      state = State.Done;
+    }
+    function getwin() public view returns(uint){
+    return winn;
+    }
+    function endgame() public {
+      state = State.Initial;
+    }
+
 
    function initgame() public{
        currentPlayer = 0;

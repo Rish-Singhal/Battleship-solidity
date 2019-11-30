@@ -42,7 +42,7 @@ class Board {
    * returns true if it is this player's turn
    */
   isYourTurn() {
-    return this.store.getCurrentPlayer() === this.player;
+    return this.game.value === this.player;
   }
 
   /**
@@ -170,17 +170,20 @@ class Board {
         if (this.player.checkWin()) {
           this.store.setMessage('Win!');
           this.game.setWinner(this.player);
+          this.game.setwin(this.player.id);
           return;
         }
-        this.game.reRender();
+        this.game.reRender2();
         return;
       }
       this.player.setState(x, y, gridState.HIT);
       this.store.setMessage('Hit!');
     } else {
+      this.game.setStoreObj(this.store);
       this.player.setState(x, y, gridState.MISS);
       this.store.setMessage('Miss!');
-      this.store.setTurn(!this.store.getTurn());
+      //this.store.setTurn(!this.store.getTurn());
+      this.game.nextgameplyr();
     }
     this.drawTile(x, y, COLOR[this.player.getStateAtPos(x, y)]);
     this.game.reRender();
@@ -353,11 +356,12 @@ class Board {
       this.canvas.addEventListener('mousemove', this.onMouseMoveSetUp.bind(this), false);
       this.canvas.addEventListener('mouseout', this.onMouseOut.bind(this), false);
       this.canvas.addEventListener('click', this.onClickSetUp.bind(this), false);
-    } else if (this.isYourTurn()) {
+    } else if (this.game.mid != this.store.turn || this.player.id!=this.game.mid) {
       // Disable board if its your turn, else, set event listeners
       const disable = document.createElement('div');
       disable.className = 'board-disable';
       this.el.appendChild(disable);
+
     } else {
       this.canvas.addEventListener('mousemove', this.onMouseMove.bind(this), false);
       this.canvas.addEventListener('mouseout', this.onMouseOut.bind(this), false);
